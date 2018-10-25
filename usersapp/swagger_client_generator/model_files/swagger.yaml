@@ -1,0 +1,350 @@
+swagger: '2.0'
+info:
+  description: NODE API USERS
+  version: 1.0.0
+  title: API USERS
+host: 'localhost:3000'
+basePath: /api/v1
+schemes:
+  - http
+paths:
+
+  #BEGIN: Auth
+  /authenticate:
+    post:
+      summary: autoriza al usuario y regresa token
+      description: autoriza al usuario y regresa token
+      operationId: login
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - Auth
+      parameters:
+        - in: body
+          name: body
+          description: Datos de login
+          required: true
+          schema:
+            $ref: '#/definitions/LoginRequest'
+      responses:
+        '200':
+          description: Colección de usuarios
+          schema:
+            $ref: '#/definitions/LoginResponse'
+        '400':
+          description: Campos incorrectos
+          schema:
+            $ref: '#/definitions/LoginValidationResponse'
+        default:
+          description: Error por defecto
+          schema:
+            $ref: '#/definitions/NoDataResponse'
+  #END Auth
+  
+  #BEGIND Objective
+  /user:
+    get:
+      summary: Obtiene los usuarios
+      description: Obtiene los usuarios
+      operationId: user
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+      tags:
+        - Usuarios
+      responses:
+        '200':
+          description: Colección de items
+          schema:
+            $ref: '#/definitions/AllUserResponse'
+        '401':
+          description: Token sin autorización
+          schema:
+            $ref: '#/definitions/NoDataResponse'
+        default:
+          description: Error por defecto
+          schema:
+            $ref: '#/definitions/NoDataResponse'
+    post:
+      summary: Crear usuario
+      description: Crea usuario
+      operationId: createUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          description: access token.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Datos del usuario a registrar
+          required: true
+          schema:
+            $ref: '#/definitions/CreateUserRequest'
+      tags:
+        - Usuarios
+      responses:
+        '200':
+          description: Datos del usuario registrado con éxito
+          schema:
+            $ref: '#/definitions/UserResponse'
+        '400':
+          description: Validaciones al registrar usuario
+          schema:
+            $ref: '#/definitions/UserValidateResponse'
+        '401':
+          description: Token sin autorización
+          schema:
+            $ref: '#/definitions/NoDataResponse'
+        default:
+          description: Error por defecto
+          schema:
+            $ref: '#/definitions/NoDataResponse'
+    put:
+      summary: Modifica un usuario
+      description: Modifica un usuario por su identificador
+      operationId: updateUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Datos del usuario a modificar
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateUserRequest'
+      tags:
+        - Usuarios
+      responses:
+        '200':
+          description: Datos del usuario actualizados con éxito
+          schema:
+            $ref: '#/definitions/UserResponse'
+        '400':
+          description: Validaciones
+          schema:
+            $ref: '#/definitions/UserValidateResponse'
+        '401':
+          description: Token sin autorización
+          schema:
+            $ref: '#/definitions/NoDataResponse'
+        default:
+          description: Error por defecto
+          schema:
+            $ref: '#/definitions/NoDataResponse'
+  /user/{id}:
+    delete:
+      summary: elimina un usuario
+      description: elimina un usuario
+      operationId: deleteUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          description: access token.
+          required: true
+          type: string
+        - in: path
+          name: id
+          description: Id del usuario a eliminar
+          required: true
+          type: integer
+      tags:
+        - Usuarios
+      responses:
+        '200':
+          description: Datos del usuario eliminado con éxito
+          schema:
+            $ref: '#/definitions/DataResponse'
+        '401':
+          description: Token sin autorización
+          schema:
+            $ref: '#/definitions/NoDataResponse'
+        default:
+          description: Error por defecto
+          schema:
+            $ref: '#/definitions/NoDataResponse'
+  #END Objective
+  
+#BEGIN Definitions
+definitions:
+
+  #BEGIN Login definition
+  LoginRequest:
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+  LoginResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      token:
+        type: string
+      user:
+        $ref: '#/definitions/LoginDataResponse'
+  LoginDataResponse:
+    type: object
+    properties:
+      name:
+        type: string
+      lastname:
+        type: string
+      email:
+        type: integer
+      username:
+        type: string
+  LoginValidationResponse:
+    type: object
+    properties:
+      message:
+        type: string
+  #END Login definition
+  
+ 
+  #BEGIN Objective definition
+  AllUserResponse:
+    type: object
+    properties:
+      users:
+        type: array
+        items:
+          $ref: '#/definitions/UserResponse'
+      message:
+        type: string
+  UserResponse:
+    type: object
+    properties:
+      _id:
+        type: string
+      name:
+        type: string
+      lastname:
+        type: string
+      email:
+        type: string
+      username:
+        type: string
+      created_at:
+        type: string
+      updated_at:
+        type: string
+  CreateUserRequest:
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      name:
+        type: string
+      lastname:
+        type: string
+      username:
+        type: string
+  UpdateUserRequest:
+    type: object
+    properties:
+      _id:
+        type: integer
+      email:
+        type: string
+      password:
+        type: string
+      name:
+        type: string
+      lastname:
+        type: string
+      username:
+        type: string
+  UserValidateResponse:
+    type: object
+    properties:
+      _id:
+        type: object
+        properties:
+          location:
+            type: string
+          param:
+            type: string
+          msg:
+            type: string
+      email:
+        type: object
+        properties:
+          location:
+            type: string
+          param:
+            type: string
+          msg:
+            type: string
+      name:
+        type: object
+        properties:
+          location:
+            type: string
+          param:
+            type: string
+          msg:
+            type: string
+      lastname:
+        type: object
+        properties:
+          location:
+            type: string
+          param:
+            type: string
+          msg:
+            type: string
+      username:
+        type: object
+        properties:
+          location:
+            type: string
+          param:
+            type: string
+          msg:
+            type: string
+  #END Objective
+  NoDataResponse:
+    type: object
+    properties:
+      message:
+        type: string
+  DataResponse:
+    type: object
+    properties:
+      message:
+        type: string
+#END Definitions
+        
+        
+        
+        
+        
+        
+        

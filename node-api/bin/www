@@ -1,0 +1,163 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('proy-api:server');
+var http = require('http');
+const mongoose = require('mongoose');
+dbconfig = require('../config/database')
+
+const User = require('../app/models/users');
+var crypto = require('crypto');
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server;
+
+// conexion a base de datos
+mongoose.connect(dbconfig.host,{ useMongoClient: true }, (err, db) => {
+  
+  // en caso de error con la base de datos no inicia la aplicacion
+  if (err) {
+    console.log(`Error de conexion de base de datos MongoError: ${err}`);
+  } else {
+    console.log('Conexion establecida en base de datos');
+    
+    app.set('db', db);
+    app.set('mongoose', mongoose);
+    
+    console.log('Inicia registros por default');    
+    registerUser();
+
+    server = http.createServer(app);
+    
+    /**
+     * Listen on provided port, on all network interfaces.
+     */
+    
+    server.listen(port);
+    server.on('error', onError);
+    server.on('listening', onListening);
+  }
+
+})
+
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
+
+// inserta un registro al iniciar
+function registerUser(){
+  let aUsers = [];
+  
+  aUsers[0] = {
+    name: 'Joel',
+    lastname: 'Valdivia',
+    username: 'joeldeval',
+    email: 'joeldeval@mail.com',
+    password: '123456'
+  }
+
+  for (var i = 0; i < aUsers.length; i++){
+    let oUser = aUsers[i];
+    
+    User.findOne({ username: oUser.username}, (err, user) => {
+     
+     if(err) throw(err)
+            
+      if (!user) {
+        let newUser = new User();
+
+        newUser.name = oUser.name;
+        newUser.username = oUser.username;
+        newUser.lastname = oUser.lastname;
+        newUser.email = oUser.email;
+        newUser.password = crypto.createHash('sha256').update(oUser.password, 'utf8').digest();
+
+        newUser.save((function(err) {
+            if(err) throw err;
+
+            try {
+              console.log('se registro el usuario: ' + oUser.name);
+              console.log('con la contraseña: ' + oUser.password);
+            } catch(exception) {
+                console.log(exception);
+            }
+        }));
+     
+      } else {
+        console.log('Existe el usuario: ' + oUser.name);
+        console.log('Su contraseña es: ' + oUser.password);
+      }
+   });
+  }
+}

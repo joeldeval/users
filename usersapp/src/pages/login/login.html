@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title  style="text-align:center">Inicio de sesión</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+
+<form [formGroup]="frm" (submit)="login()" novalidate>
+  <ion-item>
+    <ion-label stacked>Email</ion-label>
+    <ion-input formControlName="email" type="text" placeholder="Email" [class.invalid]="!frm.controls.email.valid && frm.controls.email.dirty">
+    </ion-input>
+  </ion-item>
+  <div class="validation-errors">
+    <app-field-error-display [displayError]="_validator.isFieldValid('email', frm).error" [errorMsg]="_validator.isFieldValid('email', frm).messageError">
+    </app-field-error-display>
+  </div>
+
+  <ion-item>
+    <ion-label stacked>Contraseña</ion-label>
+    <ion-input formControlName="password" type="password" placeholder="Contraseña" [class.invalid]="!frm.controls.password.valid && frm.controls.password.dirty">
+    </ion-input>
+  </ion-item>
+  <div class="validation-errors">
+    <app-field-error-display [displayError]="_validator.isFieldValid('password', frm).error" [errorMsg]="_validator.isFieldValid('password', frm).messageError">
+    </app-field-error-display>
+  </div>
+  <button ion-button color="light" block type="submit">
+    Entrar
+  </button>
+</form>
+
+</ion-content>

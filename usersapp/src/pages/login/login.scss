@@ -1,0 +1,158 @@
+// page-login {
+
+// }
+
+// .scroll{
+//   overflow: hidden !important;
+// }
+//   .Enca {
+//     font-family: "Roboto";
+//     margin: 1rem !important;
+//     padding: 1rem;
+//     color: #ffff !important;
+//     font-size: 27px !important;
+//     /* IMPORTANTE */
+//     text-align: center !important;
+//     margin-top: 40% !important;
+//   }
+//   ion-content{
+//     // overflow: hidden;
+//     // background-image: url(../../assets/img/fondopricipalmin.jpg);
+//     // background-size: cover;
+//     // color: #fff;
+//   }
+//   .login-fondo{
+//     overflow: hidden;
+//     background-image: url('../assets/img/fondopricipalmin.png');
+//     background-size: cover;
+//     // color: #fff;
+//   }
+//   ion-input{
+//     color: #fff;
+//   }
+//   .back-unable{
+//      background-color: transparent !important;
+//   }
+
+//   .img-palomar-login{
+//     text-align: center;
+//     margin: 1rem;
+//     padding: 1rem;
+//     margin-top: 36%;
+//   }
+
+
+//   ///-----------------------------------------////@at-root
+
+
+// /* form starting stylings ------------------------------- */
+// .group 			  { 
+//   position:relative; 
+//   margin: auto;
+//   text-align: center;
+// }
+// .group label
+// {
+//     width: 67%;
+// }
+// input {
+//   font-size:18px;
+//   padding:17px 10px 0px 5px;
+//   // display:block;
+//   width:200px;
+//   border:none;
+//   border-bottom:2px solid !important;
+//   border-color:  #ffff !important;
+//   font-weight: bold; 
+//   color: black ; 
+//   text-align: center;
+//   top:20px
+// }
+// input:focus { 
+//   outline:none; 
+//   border-bottom:2px solid !important;
+//   border-color:  #0080d0 !important;
+// }
+
+// /* LABEL ======================================= */
+// label{
+//   color:#ffff !important; 
+//   font-size:14px;
+//   font-weight:normal;
+//   position:absolute;
+//   pointer-events:none;
+//   left:5px;
+//   top:20px;
+//   transition:0.2s ease all; 
+//   -moz-transition:0.2s ease all; 
+//   -webkit-transition:0.2s ease all;
+//   margin-left: 15% !important;
+// }
+
+// /* active state */
+// input:focus ~ label, input:valid ~ label 		{
+//   top:5px;
+//   font-size:14px;
+//   color:#ffff;
+// }
+
+// /* BOTTOM BARS ================================= */
+// .bar 	{ position:relative; display:block; width:300px; }
+// .bar:before, .bar:after 	{
+//   content:'';
+//   height:2px; 
+//   width:0;
+//   bottom:1px; 
+//   position:absolute;
+//   background:#ffff; 
+//   transition:0.2s ease all; 
+//   -moz-transition:0.2s ease all; 
+//   -webkit-transition:0.2s ease all;
+// }
+// .bar:before {
+//   left:40%;
+// }
+// .bar:after {
+//   right:40%; 
+// }
+
+// /* active state */
+// input:focus ~ .bar:before, input:focus ~ .bar:after {
+//   width:40%;
+// }
+
+// /* HIGHLIGHTER ================================== */
+// .highlight {
+//   position:absolute;
+//   height:60%; 
+//   width:250px; 
+//   top:25%; 
+//   left:5px;
+//   pointer-events:none;
+//   opacity:0.5;
+// }
+
+// /* active state */
+// input:focus ~ .highlight {
+//   -webkit-animation:inputHighlighter 0.6s ease;
+//   -moz-animation:inputHighlighter 0.3s ease;
+//   animation:inputHighlighter 0.3s ease;
+// }
+
+// /* ANIMATIONS ================ */
+// @-webkit-keyframes inputHighlighter {
+// 	from { background:#ffff; }
+//   to 	{ width:0; background:transparent; }
+// }
+// @-moz-keyframes inputHighlighter {
+// 	from { background:#ffff; }
+//   to 	{ width:0; background:transparent; }
+// }
+// @keyframes inputHighlighter {
+// 	from { background:#ffff; }
+//   to 	{ width:0; background:transparent; }
+// }
+
+// .erro-msj{
+//   color: yellow !important;
+// }

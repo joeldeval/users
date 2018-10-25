@@ -1,0 +1,191 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "USER API",
+    "description": "Documentacion de api de test Users",
+    "version": "1.0.0"
+  },
+  "host": "192.168.1.55:8280",
+  "schemes": [
+    "http"
+  ],
+  "basePath": "/fojalAdmin/v1",
+  "paths": {
+    "/auth": {
+      "post": {
+        "summary": "autenticar user",
+        "x-auth-type": "None",
+        "x-scope": "auth_user",
+        "description": "autenticar user",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created user object",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/UserLogin"
+            }
+          }
+        ],
+        "tags": [
+          "Login"
+        ],
+        "responses": {
+          "200": {
+            "description": "LOGIN USERS",
+            "schema": {
+              "$ref": "#/definitions/SuccessToken"
+            }
+          },
+          "401": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorToken"
+            }
+          }
+        }
+      }
+    },
+    "/user": {
+      "get": {
+        "summary": "Get data all Users",
+        "description": "Returns all user data\n",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created user object",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of users",
+            "schema": {
+              "$ref": "#/definitions/GetUsers"
+            }
+          },
+          "401": {
+            "description": "Error del Token",
+            "schema": {
+              "$ref": "#/definitions/ErrorToken"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "SuccessToken": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "integer"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "token": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "ErrorToken": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "error": {
+          "type": "string"
+        },
+        "status_code": {
+          "type": "integer"
+        }
+      }
+    },
+    "GetUsers": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "valor true que refleja exito en la operacion"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/User"
+          }
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Unique identifier of users"
+        }
+      }
+    },
+    "UserLogin": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "user"
+        },
+        "password": {
+          "type": "string",
+          "description": "pass"
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "x-wso2-security": {
+    "apim": {
+      "x-wso2-scopes": [
+        {
+          "roles": "BBBsPowerAdmin,BBBsCompanyMaster,BBBsCompanyStaff",
+          "name": "Get Companies Info",
+          "description": "Get companies information",
+          "key": "auth_user"
+        },
+        {
+          "roles": "BBBsPowerAdmin",
+          "name": "Get Companies Info",
+          "description": "Get companies information",
+          "key": "auth_user2"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-navbar>
+    <div class="bar bar-header bar-positive">
+      <h1 class="title" style="text-align:center">Usuarios</h1>
+    </div>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="logout()">
+        <ion-icon name="exit"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-fab bottom right>
+  <button ion-fab (click)="showAdd()">
+    <ion-icon name="add"></ion-icon>
+  </button>
+</ion-fab>
+<ion-content>
+  <ion-item>
+    <ion-label fixed>Busca usuario:</ion-label>
+    <ion-input type="text" [(ngModel)]="searchText"></ion-input>
+  </ion-item>
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngFor='let o of lstItems | filter: searchText' col-12 no-padding>
+        <ion-card>
+          <ion-item (click)="showEdit(o)">
+            <ion-icon name="person" item-start large></ion-icon>
+            <h3>{{ o.name | uppercase }} <br> {{ o.lastname | uppercase}}</h3>
+            <p><b>alias:</b> {{ o.username }} <br> <b>email:</b> {{ o.email }}</p>
+          </ion-item>
+          <!-- <ion-row> -->
+            <ion-col>
+              <button ion-button icon-start clear small (click)="showDelete(o)">
+                <ion-icon ios="ios-trash" md="md-trash" style="color: #e63e3e"></ion-icon>
+              </button>
+            </ion-col>
+          <!-- </ion-row> -->
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
